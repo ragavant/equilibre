@@ -1,0 +1,16 @@
+SSH.hostname=184.72.228.141
+SSH.username=ec2-user
+SSH.keyfile=FD-KP1.pem
+
+HAProxy.defaultsFile=HAProxyDefaults.conf
+
+HAProxy.cmd.status=sudo service haproxy status
+HAProxy.cmd.status.result=running
+HAProxy.cmd.start=sudo service haproxy start
+HAProxy.cmd.start.result=started
+HAProxy.cmd.reload=sudo service haproxy reload
+HAProxy.cmd.reload.result=[ALERT]
+HAProxy.conf.dir=/etc/haproxy/
+HAProxy.conf.file=haproxy.cfg
+
+
