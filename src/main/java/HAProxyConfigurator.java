@@ -20,7 +20,7 @@ public class HAProxyConfigurator {
 
     public HAProxyConfigurator(String parameterFile) throws Exception {
         properties = new Properties();
-        FileInputStream in = new FileInputStream(System.getProperty("user.dir") + "/" + parameterFile);
+        FileInputStream in = new FileInputStream(parameterFile);
         properties.load(in);
         in.close();
 
@@ -37,7 +37,7 @@ public class HAProxyConfigurator {
         {
             /* Create a connection instance */
             String keyFileName = properties.getProperty("SSH.keyfile");
-            String keyFilePath = properties.getProperty("SSH.keyfile.path", System.getProperty("user.dir") + "/../../.ec2/");
+            String keyFilePath = properties.getProperty("SSH.keyfile.path", "");
             File keyfile = new File(keyFilePath + keyFileName);
 
             String hostName = properties.getProperty("SSH.hostname");
