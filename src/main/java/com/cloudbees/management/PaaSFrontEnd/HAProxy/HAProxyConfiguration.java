@@ -47,8 +47,8 @@ public class HAProxyConfiguration {
     private Map<String, Proxy> frontEnds = new HashMap<String, Proxy>();
     private Map<String, String> nodes = new HashMap<String, String>();
 
-    private void setDefaults(String confFile) throws IOException {
-        FileReader fr = new FileReader(confFile);
+    private void setDefaults(InputStream confFile) throws IOException {
+        InputStreamReader fr = new InputStreamReader(confFile);
         BufferedReader br = new BufferedReader(fr);
         String s;
         Settings settings = null;
@@ -126,7 +126,7 @@ public class HAProxyConfiguration {
      * @param defaultConfigurationFile  The default configuration file name
      * @throws IOException
      */
-    public HAProxyConfiguration(String defaultConfigurationFile) throws IOException {
+    public HAProxyConfiguration(InputStream defaultConfigurationFile) throws IOException {
         lb = LoadBalancerFactory.getLoadBalancer(HAProxyRegistry.TYPE, "HAProxy configuration: " + new Date());
 
         setDefaults(defaultConfigurationFile);

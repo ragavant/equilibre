@@ -5,6 +5,9 @@ import junit.framework.TestCase;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * HAProxyConfigurator Tester.
  *
@@ -54,6 +57,38 @@ public class HAProxyConfiguratorTest extends TestCase {
         lbc.pushConfiguration();
         lbc.close();
     }
+
+    public void testMichael() throws Exception {
+//        String configurationFile = "/Users/michaelneale/projects/paas/equilibre/src/test/resource/HAProxyConfigurator.properties";
+        Properties properties = new Properties();
+        properties.load(this.getClass().getResourceAsStream("/HAProxyConfigurator.properties"));
+        properties.setProperty("SSH.hostname", "haproxy.cbruntime.us");
+        properties.setProperty("SSH.username", "root");
+        properties.setProperty("SSH.keyfile", "/Users/michaelneale/.ssh/mic-dev.pem");
+
+
+        HAProxyConfigurator lbc = new HAProxyConfigurator(properties);
+
+        //for (int i=1; i<3; i++) {
+            PaaSApplication app1 = new PaaSApplication("something.paas.cbruntime.us/businessGov/pad/businessgov.html", PaaSApplication.COOKIE | PaaSApplication.SOURCE_IP, PaaSApplication.HTTP | PaaSApplication.HTTPS);
+            app1.addErrorRedirect("503", "http://www.cloudbees.com");
+            app1.addErrorRedirect("504", "http://www.cloudbees.com");
+            //app1.addOption("reqadd\tFRONT_END_COMPANY:\\ company"+ i);
+            PaaSNode node1 = new PaaSNode("node1", "www.unsw.edu.au:80", null);
+            node1.setHealthCheck(true, true, null);
+            app1.addNode(node1);
+//            PaaSNode node2 = new PaaSNode("node2", "10.205.11.191:9090", null);
+//            node2.setHealthCheck(true, true, null);
+//            app1.addNode(node2);
+            lbc.addApplication(app1);
+        //}
+
+        lbc.displayConfiguration();
+
+        lbc.pushConfiguration();
+        lbc.close();
+    }
+
 
 
     public static Test suite() {

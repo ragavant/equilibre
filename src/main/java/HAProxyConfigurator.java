@@ -13,19 +13,38 @@ import java.util.List;
 import java.util.Properties;
 
 
+/**
+ * This is partly a demo class - and also contains the SSH code to push the configuration to a front end server. 
+ */
 public class HAProxyConfigurator {
     private Properties properties;
     private SSHConnection connection;
     private HAProxyConfiguration lbc;
 
+
+    /** Path to the properties file of where to find the config */
     public HAProxyConfigurator(String parameterFile) throws Exception {
         properties = new Properties();
         FileInputStream in = new FileInputStream(parameterFile);
         properties.load(in);
         in.close();
 
+        init();
+    }
+
+    private void init() throws IOException {
         String HAProxyDefaultsFile = properties.getProperty("HAProxy.defaultsFile");
-        lbc = new HAProxyConfiguration(HAProxyDefaultsFile);
+        if (HAProxyDefaultsFile != null) {
+            lbc = new HAProxyConfiguration(new FileInputStream(HAProxyDefaultsFile));
+        } else {
+            lbc = new HAProxyConfiguration(this.getClass().getResourceAsStream("/HAProxyDefaults.conf"));
+        }
+
+    }
+
+    public HAProxyConfigurator(Properties props) throws Exception {
+        properties = props;
+        init();
     }
 
     public void addApplication(PaaSApplication app) throws MalformedURLException {

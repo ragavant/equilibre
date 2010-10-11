@@ -6,6 +6,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
 
+import java.io.InputStream;
+
 /**
  * HAProxyConfiguration Tester.
  *
@@ -31,10 +33,10 @@ public class HAProxyConfigurationTest extends TestCase {
      * Method: toString()
      */
     public void testToString() throws Exception {
-        String configurationFile = "/cloudbees/equilibre/src/test/resource/HAProxyDefaults.conf";
 
         HAProxyConfiguration lbc;
-        lbc = new HAProxyConfiguration(configurationFile);
+
+        lbc = new HAProxyConfiguration(this.getClass().getResourceAsStream("/HAProxyDefaults.conf"));
 
         PaaSApplication app1 = new PaaSApplication("company1.domain.com/company1/", PaaSApplication.COOKIE, PaaSApplication.HTTP | PaaSApplication.HTTPS);
         app1.addErrorRedirect("503", "http://someredirect/503.html");
