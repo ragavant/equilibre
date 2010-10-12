@@ -87,7 +87,7 @@ public class HAProxyConfigurator {
         return false;
     }
 
-    public void pushConfiguration() throws IOException {
+    public boolean pushConfiguration() throws IOException {
         // Check HAProxy status
         boolean ok = execCommand(properties.getProperty("HAProxy.cmd.status"), properties.getProperty("HAProxy.cmd.status.result"));
         if (!ok) {
@@ -95,7 +95,7 @@ public class HAProxyConfigurator {
             ok = execCommand(properties.getProperty("HAProxy.cmd.start"), properties.getProperty("HAProxy.cmd.start.result"));
             if (!ok) {
                 System.err.println("Cannot start HAProxy");
-                return;
+                return false;
             }
         }
 
@@ -124,10 +124,13 @@ public class HAProxyConfigurator {
                 // revert old config
                 execCommand("cp " + confDir + confFile + ".old " + confDir + confFile, null);
                 execCommand(properties.getProperty("HAProxy.cmd.reload"), properties.getProperty("HAProxy.cmd.reload.result"));
+                return false;
             }
+            return true;
 
         } else {
             System.err.println("Configuration not generated");
+            return false;
         }
 
     }

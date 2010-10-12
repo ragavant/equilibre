@@ -42,6 +42,7 @@ public class PaaSApplication {
     private Map<String, String> errorRedirects;
     private String nodeHealthCheckOption;
 
+
     /**
      * PaasApplication configuration.
      * @param url  The url of the application (should be unique among all application)
@@ -55,6 +56,16 @@ public class PaaSApplication {
         options = new ArrayList<String>();
         nodes = new ArrayList<PaaSNode>();
         errorRedirects = new HashMap<String, String>();
+    }
+
+    /**
+     * PaasApplication configuration.
+     * @param url  The url of the application (should be unique among all application)
+     * @param stickynessMode  Set to stickyness mode (NON_STICKY: no stickyness, COOKIE: use cookies, SOURCE_IP: use the client source IP address). Bitmap value
+     * @param protocol  Set the protocol allowed for connection: HTTP, HTTPS. Bitmap value.
+     */
+    public PaaSApplication(String url, String path, int stickynessMode, int protocol) {
+        this(url + ((path.startsWith("/")) ? path : "/" + path), stickynessMode, protocol);
     }
 
     /**

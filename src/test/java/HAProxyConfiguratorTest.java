@@ -70,7 +70,7 @@ public class HAProxyConfiguratorTest extends TestCase {
         HAProxyConfigurator lbc = new HAProxyConfigurator(properties);
 
         //for (int i=1; i<3; i++) {
-            PaaSApplication app1 = new PaaSApplication("something.paas.cbruntime.us/businessGov/pad/businessgov.html", PaaSApplication.COOKIE | PaaSApplication.SOURCE_IP, PaaSApplication.HTTP | PaaSApplication.HTTPS);
+            PaaSApplication app1 = new PaaSApplication("something.paas.cbruntime.us", "/businessGov/pad/businessgov.html", PaaSApplication.COOKIE | PaaSApplication.SOURCE_IP, PaaSApplication.HTTP | PaaSApplication.HTTPS);
             app1.addErrorRedirect("503", "http://www.cloudbees.com");
             app1.addErrorRedirect("504", "http://www.cloudbees.com");
             //app1.addOption("reqadd\tFRONT_END_COMPANY:\\ company"+ i);
@@ -85,7 +85,7 @@ public class HAProxyConfiguratorTest extends TestCase {
 
         lbc.displayConfiguration();
 
-        lbc.pushConfiguration();
+        assertTrue(lbc.pushConfiguration());
         lbc.close();
     }
 
